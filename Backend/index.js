@@ -18,7 +18,7 @@ const attendanceRoutes = require('./routes/attendanceRoute')
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
-app.use('/api/user', attendanceRoutes)
+app.use('/api/attendance', attendanceRoutes)
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { userApi } from '../../api/axios'
+
 
 const Register = () => {
     const navigate = useNavigate()
@@ -11,7 +12,7 @@ const Register = () => {
     const [role, setRole] = useState('')
     const getListRole = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/user/roles`, {
+            const response = await userApi.get('/roles', {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -30,11 +31,11 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post(`http://localhost:8000/api/user/signup`, {
-                "username" : username,
-                "email" : email,
-                "password" : password,
-                "role_id" : role
+            const response = await userApi.post('/signup', {
+                "username": username,
+                "email": email,
+                "password": password,
+                "role_id": role
             }, {
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import '../../index.css'
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../api/axios';
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -11,15 +12,16 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/login', {
+            const response = await authApi.post(`/login`, {
                 email,
                 password
             }, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            },);
-            console.log(response.data);
+            },)
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('user', JSON.stringify(response.data.user))
             navigate('/attendance-form');
         } catch (error) {
             console.error(error);
