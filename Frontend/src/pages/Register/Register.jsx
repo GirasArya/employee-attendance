@@ -98,16 +98,10 @@ const Register = () => {
                     </form>
 
                     <div>
-                        <p className='text-sm text-gray-500 mt-5'>Don't have an account? <span className='text-blue-500 cursor-pointer font-semibold'><a href="/signup">Sign Up</a></span>
+                        <p className='text-sm text-gray-500 mt-5'>Already have an account? <span className='text-blue-500 cursor-pointer font-semibold'><a href="/login">Login</a></span>
                         </p>
                     </div>
-
-                    <div>
-                        <p className='mt-5 text-sm text-gray-500'>Login as <span className='text-blue-500 cursor-pointer font-semibold'>
-                            <a href='/'>Admin</a>
-                        </span>
-                        </p>
-                    </div>
+                    
                 </div>
             </div>
         </div>

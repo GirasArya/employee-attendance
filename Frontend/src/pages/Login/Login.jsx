@@ -22,6 +22,7 @@ const Login = () => {
             },)
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.user))
+    
             navigate('/attendance-form');
         } catch (error) {
             console.error(error);
