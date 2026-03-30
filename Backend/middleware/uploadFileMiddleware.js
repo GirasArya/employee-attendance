@@ -6,7 +6,8 @@ const storage = multer.diskStorage({
         cb(null, './uploads') // Temporary directory for files
     },
     filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}-${file.originalname}`; //filenamse
+        const cleanName = file.originalname.replace(/\s+/g, '_'); // ← remove spaces
+        const uniqueName = `${Date.now()}-${cleanName}`;
         cb(null, uniqueName);
     }
 });
