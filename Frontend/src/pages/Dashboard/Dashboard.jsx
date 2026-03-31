@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AdminSidebar from '../../components/AdminSidebar'
 import AdminAttendanceTable from '../../components/AdminAttendanceTable'
 import { attendanceApi } from '../../api/axios'
+import { Toast } from '@chakra-ui/react'
 
 const Dashboard = () => {
   const [attendanceRecord, setAttendanceRecord] = useState([])
@@ -10,6 +11,7 @@ const Dashboard = () => {
     try {
       const response = await attendanceApi.get('/admin/get')
       setAttendanceRecord(response.data.data)
+
     } catch (error) {
       console.error(error)
     }

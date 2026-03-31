@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { userApi } from '../../api/axios'
+import { useToast } from '@chakra-ui/react'
 
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('')
+    const toast = useToast()
     const getListRole = async () => {
         try {
             const response = await userApi.get('/roles', {
@@ -41,10 +43,27 @@ const Register = () => {
                     'Content-Type': 'application/json',
                 }
             })
-            console.log(response.data);
+            toast({
+                title: 'Register Successful',
+                description: response.data.message,
+                status: 'success',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
             navigate('/')
         } catch (error) {
             console.error(error)
+            toast({
+                title: 'Register Failed',
+                description: error.data?.error,
+                status: 'error',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
 
@@ -59,6 +78,7 @@ const Register = () => {
                                 <label htmlFor="Username">Full Name</label>
                                 <input type="text"
                                     onChange={(e) => setUsername(e.target.value)}
+                                    required
                                     placeholder='Email'
                                     className='border-2 border-gray-300 rounded-md p-2' />
                             </div>
@@ -66,6 +86,7 @@ const Register = () => {
                                 <label htmlFor="Email">Email</label>
                                 <input type="email"
                                     onChange={(e) => setEmail(e.target.value)}
+                                    required
                                     placeholder='Email'
                                     className='border-2 border-gray-300 rounded-md p-2' />
                             </div>
@@ -74,6 +95,7 @@ const Register = () => {
                                 <select
                                     defaultValue=""
                                     onChange={(e) => setRole(e.target.value)}
+                                    required
                                     className='border-2 border-gray-300 rounded-md p-2'>
                                     <option value="" selected disabled>Select One Option</option>
                                     {
@@ -90,6 +112,7 @@ const Register = () => {
                                 <label htmlFor="Password">Password</label>
                                 <input type="password"
                                     onChange={(e) => setPassword(e.target.value)}
+                                    required
                                     placeholder='Password'
                                     className='border-2 border-gray-300 rounded-md p-2' />
                             </div>

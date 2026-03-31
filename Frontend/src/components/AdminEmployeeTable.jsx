@@ -14,9 +14,10 @@ import {
     Badge,
     Button,
     Select,
-    IconButton
+    IconButton,
+    useToast
 } from '@chakra-ui/react'
-import { MdDelete, MdAdd, MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { MdDelete, MdAdd, MdOutlineKeyboardArrowDown, MdDescription } from "react-icons/md";
 import { TfiCheck } from "react-icons/tfi";
 import { userApi } from '../api/axios';
 const AdminEmployeeTable = ({ employeeData, employeeRole, refreshData }) => {
@@ -24,7 +25,7 @@ const AdminEmployeeTable = ({ employeeData, employeeRole, refreshData }) => {
     const [editRole, setEditRole] = useState(null)
     const [userToUpdate, setUserToUpdate] = useState(null)
     const navigate = useNavigate()
-
+    const toast = useToast()
     useEffect(() => {
         const sessionUser = localStorage.getItem('user')
 
@@ -46,24 +47,56 @@ const AdminEmployeeTable = ({ employeeData, employeeRole, refreshData }) => {
             const response = await userApi.put(`/admin/update/${userToUpdate.id}`, {
                 role_id: editRole
             })
-            alert(response.data.message)
+            toast({
+                title: 'Request Successful',
+                description : response.data.message,
+                status: 'success',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
             refreshData()
         } catch (error) {
             console.error(error)
+            toast({
+                title: 'Request failed',
+                description : error.response?.data.error,
+                status: 'failed',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
 
     const handleDelete = async (id) => {
         try {
             const response = await userApi.delete(`/admin/delete/${id}`)
-            alert(response.data.message)
+            toast({
+                title: 'Request Successful',
+                description : response.data.message,
+                status: 'success',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
             refreshData()
         } catch (error) {
             console.error(error)
+            toast({
+                title: 'Request failed',
+                description : error.response?.data.error,
+                status: 'failed',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
-
-    console.log(employeeData)
     return (
         <div className='w-full h-[80%]'>
             <div className='w-full flex items-center justify-between mb-8'>

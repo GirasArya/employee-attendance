@@ -1,30 +1,48 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../../api/axios'
+import { useToast } from '@chakra-ui/react'
 
 const Admin = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const toast = useToast()
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-        const response = await authApi.post(`/login`, {
-            email,
-            password
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        },)
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('user', JSON.stringify(response.data.user))
-        navigate('/');
+      const response = await authApi.post(`/login`, {
+        email,
+        password
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      },)
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      toast({
+        title: 'Login Successful',
+        status: 'success',
+        position: 'bottom-right',
+        variant: 'top-accent',
+        duration: 3000,
+        isClosable: true,
+      })
+      navigate('/');
     } catch (error) {
-        console.error(error);
+      console.error(error);
+      toast({
+        title: 'Login Failed',
+        description: error.response?.data.error,
+        status: 'error',
+        position: 'bottom-right',
+        variant: 'top-accent',
+        duration: 3000,
+        isClosable: true,
+      })
     }
-}
+  }
 
   return (
     <div className='h-[100vh] flex justify-center items-center bg-gray-100'>

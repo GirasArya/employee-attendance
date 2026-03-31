@@ -30,8 +30,6 @@ const AdminAttendanceTable = (attendanceData) => {
         setUser(JSON.parse(sessionUser))
     }, [])
 
-    // console.log('attendance table data : ', attendanceData.attendanceData)
-
     const handleBadge = (status) => {
         switch (status) {
             case "Present":

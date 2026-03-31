@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isTokenValid } from '../../utils/auth'
 import { attendanceApi } from '../../api/axios'
+import { useToast } from '@chakra-ui/react'
 
 const Attendance = () => {
     const [user, setUser] = useState(null)
@@ -10,6 +11,7 @@ const Attendance = () => {
     const [date, setDate] = useState('')
     const [file, setFile] = useState(null)
     const navigate = useNavigate()
+    const toast = useToast()
     const [recordBood, setRecordBool] = useState(false)
 
     const getRecordByEmployeeData = async (id) => {
@@ -34,7 +36,14 @@ const Attendance = () => {
             formdata.append('photo', file)
             const response = await attendanceApi.post(`/create`, formdata)
             if (response.data.status) {
-                alert('Clock in successful!')
+                toast({
+                    title: 'Clock in successful!',
+                    status: 'success',
+                    position: 'bottom-right',
+                    variant: 'top-accent',
+                    duration: 3000,
+                    isClosable: true,
+                })
                 getRecordByEmployeeData(user?.id)
             }
         } catch (error) {
@@ -54,7 +63,14 @@ const Attendance = () => {
             const response = await attendanceApi.put(`/update/${recordId}`)
             if (response.data.status) {
                 setRecordBool(false)
-                alert('Clock out successful!')
+                toast({
+                    title: 'Clock out successful!',
+                    status: 'success',
+                    position: 'bottom-right',
+                    variant: 'top-accent',
+                    duration: 3000,
+                    isClosable: true,
+                })
                 navigate('/login')
             }
         } catch (error) {

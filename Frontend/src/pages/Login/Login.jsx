@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import '../../index.css'
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api/axios';
+import { useToast } from '@chakra-ui/react';
 
 
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const toast = useToast()
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
@@ -22,11 +23,27 @@ const Login = () => {
             },)
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.user))
+            toast({
+                title: 'Login Successful',
+                status: 'success',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
             navigate('/attendance-form');
 
-
         } catch (error) {
-            console.error(error);
+            console.log(error);
+            toast({
+                title: 'Login Failed',
+                description: error.response?.data.error,
+                status: 'error',
+                position: 'bottom-right',
+                variant: 'top-accent',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
 

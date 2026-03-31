@@ -11,7 +11,8 @@ import {
     DrawerCloseButton,
     Button,
     IconButton,
-    CloseButton
+    CloseButton,
+    useToast
 } from '@chakra-ui/react'
 import { TfiAlignJustify } from "react-icons/tfi";
 import { TiHome } from "react-icons/ti";
@@ -21,7 +22,7 @@ const AdminSidebar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
-
+    const toast = useToast()
     useEffect(() => {
         const sessionUser = localStorage.getItem('user')
 
@@ -36,6 +37,14 @@ const AdminSidebar = () => {
     const handleLogout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        toast({
+            title: 'Logout Successful',
+            status: 'success',
+            position: 'bottom-right',
+            variant: 'top-accent',
+            duration: 3000,
+            isClosable: true,
+        })
         navigate('/login')
     }
 
