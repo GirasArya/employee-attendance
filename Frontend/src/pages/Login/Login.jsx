@@ -22,8 +22,9 @@ const Login = () => {
             },)
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.user))
-    
             navigate('/attendance-form');
+
+
         } catch (error) {
             console.error(error);
         }
@@ -32,7 +33,7 @@ const Login = () => {
     return (
         <div className='h-[100vh] flex justify-center items-center bg-gray-100'>
             <div className='w-[400px] p-5 border-2 rounded-xl bg-white flex flex-col justify-center'>
-                <h4 className='self-center text-2xl font-semibold'>Sign in With Email </h4>
+                <h4 className='self-center text-2xl font-semibold'>Employee Attendance Login</h4>
                 <form onSubmit={handleLogin} method="post" className='mt-5'>
                     <div className='flex flex-col gap-5'>
                         <div className='flex flex-col gap-2'>
@@ -60,7 +61,7 @@ const Login = () => {
 
                 <div>
                     <p className='mt-5 text-sm text-gray-500'>Login as <span className='text-blue-500 cursor-pointer font-semibold'>
-                        <a href='/'>Admin</a>
+                        <a href='/admin'>Admin</a>
                     </span>
                     </p>
                 </div>

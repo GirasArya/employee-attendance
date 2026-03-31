@@ -2,7 +2,12 @@ const db = require('../db')
 
 
 const getAllAttendance = (req, res) => {
-    const sql = `SELECT * FROM attendance_record`
+    const sql = `
+        SELECT rec.*, e.username, e.email 
+        FROM attendance_record AS rec
+        JOIN employee AS e ON rec.employee_id = e.id
+        ORDER BY rec.date DESC
+    `
     db.query(sql, (err, results) => {
         if (err) {
             console.error('SQL Error: ', err)
@@ -12,12 +17,30 @@ const getAllAttendance = (req, res) => {
             return {
                 ...res,
                 photo: res.photo
-                ? `http://localhost:8000/uploads/${res.photo}`
-                : null
+                    ? `http://localhost:8000/uploads/${res.photo}`
+                    : null
             }
         })
         res.status(200).json({ status: true, data });
     })
+}
+
+const updateAttendanceStatus = (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!status || !id) {
+        return res.status(400).json({
+            status: false,
+            error: "Missing required fields"
+        });
+    }
+    const sql = "UPDATE attendance_record SET status = ?, `timestamp` = NOW() WHERE id = ?";
+    db.query(sql, [status, id], (err, results) => {
+        if (err) return res.status(500).json({ status: false, error: err.message });
+        if (results.affectedRows === 0) return res.status(404).json({ status: false, error: "Record not found" });
+        res.status(200).json({ status: true, message: "Status updated successfully" });
+    });
 }
 
 const getAttendanceByEmployeeId = (req, res) => {
@@ -89,6 +112,7 @@ const updateAttendance = (req, res) => {
 
 module.exports = {
     getAllAttendance,
+    updateAttendanceStatus,
     getAttendanceByEmployeeId,
     createAttendance,
     updateAttendance

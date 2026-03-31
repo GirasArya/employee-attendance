@@ -42,7 +42,7 @@ const Register = () => {
                 }
             })
             console.log(response.data);
-            navigate('/login')
+            navigate('/')
         } catch (error) {
             console.error(error)
         }
@@ -56,7 +56,7 @@ const Register = () => {
                     <form onSubmit={handleRegister} className='mt-5'>
                         <div className='flex flex-col gap-5'>
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="Username">Username</label>
+                                <label htmlFor="Username">Full Name</label>
                                 <input type="text"
                                     onChange={(e) => setUsername(e.target.value)}
                                     placeholder='Email'
